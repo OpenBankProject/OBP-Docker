@@ -51,9 +51,3 @@ echo "Replacing properties for API"
 
 # Start supervisor
 exec /etc/init.d/supervisor start
-
-
-# Trick to keep it running (taken from hadoop) 
-if [[ $1 == "-d" ]]; then
-  while true; do sleep 100; done
-fi
