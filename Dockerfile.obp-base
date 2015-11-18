@@ -1,0 +1,8 @@
+FROM java:7
+MAINTAINER OpenBankProject <contact@openbankproject.com>
+ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8
+RUN \
+ apt-get update &&\
+ apt-get upgrade --yes &&\
+ apt-get install --yes bash curl git maven &&\
+ apt-get clean

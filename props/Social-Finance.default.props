@@ -1,0 +1,38 @@
+#this is a sample props file you should edit and rename
+#see https://www.assembla.com/wiki/show/liftweb/Properties for all the naming options, or just use "default.props" in this same folder
+
+#the base url of the api to use (e.g. https://apisandbox.openbankproject.com)
+api_hostname=http://162.13.179.250:8080
+
+#these are the oauth keys obtained from the api (at /consumer-registration)
+obp_consumer_key=ghg2w5y2zegdwuz4n4v5por4zwyy35tudv3whffn
+obp_secret_key=pqbq2xtrlg5skxauhnvl0g5mecb5dapeq4kh4tlp
+
+#the base url of this application (e.g. http://localhost:8080) which is used for the oauth callback url.
+#note: if you are running a local api instance and a local sofi instance, you will want to access one via
+#localhost and one via 127.0.0.1 to avoid weird cookie issues
+base_url=http://docker.openbankproject.com:8081
+
+#this is only useful for running the api locally via RunWebApp
+#if you use it, make sure this matches your base_url port!
+#if you want to change the port when running via the command line, use "mvn -Djetty.port=8081 jetty:run" instead
+dev.port=8081
+
+#at the moment sofi doesn't have the ability select multiple user auth providers
+#in most cases, this should just be identical to "api_hostname"
+defaultAuthProvider=http://162.13.179.250:8080
+
+#set to true if you want to display a link to the alternate api login flow that allows a user to connect their bank account via HBCI
+#sofi currently is not very flexible and hardcodes this link to api_hostname/login, so it will probably only be useful to show if you
+#are working against https://api.openbankproject.com, where that path actually exists
+showConnectBankAccountLink=true
+
+#Your transloadit auth key (used to upload transaction images)
+#not needed unless you want to upload images
+transloadit.authkey=docker
+
+#Your transloadit template used to process transaction image uploading
+#not needed unless you want to upload images
+transloadit.addImageTemplate=docker
+
+webui_api_explorer_url=http://docker.openbankproject.com:8082

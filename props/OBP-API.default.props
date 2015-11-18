@@ -1,0 +1,70 @@
+connector=mapped
+
+#mongo.host=127.0.0.1
+#mongo.dbName=OBP006
+
+#db.driver=org.postgresql.Driver
+#db.url=jdbc:postgresql://localhost:5432/bnpp_obp_api_sandbox?user=bnpp_obp_api&password=halT1(sprin7
+
+#rabbitMQ
+connection.host=localhost
+connection.user=rmq-admin
+connection.password=GkkinRcRxL7WQH3a2r21
+
+BankMockKey=fjuancarlos7y4hbaaf7fdah
+hostname=http://162.13.179.250:8080
+
+messageQueue.updateBankAccountsTransaction=false
+messageQueue.createBankAccounts=false
+
+allow_sandbox_account_creation=true
+allow_sandbox_data_import=true
+sandbox_data_import_secret=foojf87ufhyajfhaasdeG
+
+mail.users.userinfo.sender.address=no-reply@openbankproject.com
+mail.api.consumer.registered.sender.address=no-reply@openbankproject.com
+mail.api.consumer.registered.notification.addresses=ismail@tesobe.com,simon@tesobe.com
+mail.smtp.host=10.0.1.4
+mail.smtp.port=25
+mail.exception.sender.address=no-reply@openbankproject.com
+mail.exception.registered.notification.addresses=obp-docker@tesobe.com
+
+#transaction import apis
+cashApplicationKey=af7a7fnhbz61azqibA
+payments_enabled=true
+
+token_expiration_weeks=4
+
+#transaction requests are replacing simple payments starting from 1.4.0
+transactionRequests_enabled=true
+transactionRequests_connector=mapped
+
+
+
+### web interface configuration
+webui_header_logo_left_url = https://static.openbankproject.com/images/OBP_full_web.png
+webui_header_logo_right_url =
+webui_index_page_about_section_background_image_url =
+webui_index_page_about_section_text = <p class="about-text"> \
+                                        Welcome to the API Sandbox powered by the Open Bank Project!
+                                      </p>
+
+# API Explorer url. Change this to the instance of API Explorer linked to this API. e.g. apiexplorer.openbankproject.com/
+webui_api_explorer_url=http://docker.openbankproject.com:8082
+
+
+# Starting page of documentation. Change this if you have a specific
+landing page.
+webui_api_documentation_url = https://github.com/OpenBankProject/OBP-API/wiki/
+
+
+
+# Main style sheet. Add your own if need be.
+webui_main_style_sheet = /media/css/website.css
+
+# Override certain elements (with important styles)
+webui_override_style_sheet =
+
+
+## For partner logos and links
+webui_main_partners=
