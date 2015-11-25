@@ -23,6 +23,6 @@ RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.gi
 ADD props/API-Explorer.default.props /opt/OBP/API-Explorer/src/main/resources/props/default.props
 ADD mvn_apps.sh /opt/OBP/API-Explorer/mvn.sh
 RUN cd /opt/OBP/API-Explorer/ && mvn compile
-# Database, start script and final command
+# Start script and final command
 ADD run_obp /usr/local/sbin/
 CMD /usr/local/sbin/run_obp
