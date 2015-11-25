@@ -12,3 +12,8 @@ https://hub.docker.com/r/openbankproject/
 ## Build obp-full
 
     $ docker build -f Dockerfile.obp-full -t openbankproject/obp-full .
+
+
+## Build obp-full-kafka
+
+    $ docker build -f Dockerfile.obp-full-kafka -t openbankproject/obp-full-kafka .
