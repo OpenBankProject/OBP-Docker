@@ -14,7 +14,7 @@ ADD kafka/scripts/start-kafka.sh /usr/local/sbin/start-kafka.sh
 # Supervisor
 ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
-RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector
+RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector && git pull
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
 RUN cd /opt/OBP/OBP-API/ && mvn clean && mvn compile
