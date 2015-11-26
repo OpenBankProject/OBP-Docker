@@ -6,7 +6,7 @@ ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8
 ENV SCALA_VERSION 2.10
 ENV KAFKA_VERSION 0.8.2.2
 ENV KAFKA_HOME /opt/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION"
-RUN apt-get install --yes zookeeper && \
+RUN apt-get install --yes zookeeper net-tools && \
     wget -q http://apache.mirrors.spacedump.net/kafka/"$KAFKA_VERSION"/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz -O /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz && \
     tar xfz /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz -C /opt && \
     rm /tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz
@@ -14,5 +14,7 @@ ADD kafka/scripts/start-kafka.sh /usr/local/sbin/start-kafka.sh
 # Supervisor
 ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
-RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector && mvn clean && mvn compile
+RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
+ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
+RUN cd /opt/OBP/OBP-API/ && mvn clean && mvn compile
