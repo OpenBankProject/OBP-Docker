@@ -17,4 +17,8 @@ ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector && git pull
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
+# Disable rebuild before running jetty
+RUN sed -i 's/<useZincServer>true<\/useZincServer>/<useZincServer>false<\/useZincServer>/g' /opt/OBP/*/pom.xml
+RUN sed -i 's/<recompileMode>incremental<\/recompileMode>/<recompileMode>modified-only<\/recompileMode>/g' /opt/OBP/*/pom.xml
+# Clean, build and cache dependencies
 RUN cd /opt/OBP/OBP-API/ && mvn clean && mvn compile
