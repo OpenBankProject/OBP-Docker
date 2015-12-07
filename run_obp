@@ -34,19 +34,19 @@ echo "Replacing properties for API Explorer"
 /bin/sed -i "s|api_hostname=.*|api_hostname=${OBP_API_HOSTNAME}|g" ${PROPS_API_EXPLORER}
 /bin/sed -i "s|defaultAuthProvider=.*|defaultAuthProvider=${OBP_API_HOSTNAME}|g" ${PROPS_API_EXPLORER}
 /bin/sed -i "s|base_url=.*|base_url=${OBP_BASE_URL_API_EXPLORER}|g" ${PROPS_API_EXPLORER}
-/bin/sed -i "s|webui_api_explorer_url=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_API_EXPLORER}
+/bin/sed -i "s|webui_api_explorer_url.*=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_API_EXPLORER}
 
 # SoFi
 echo "Replacing properties for Social Finance"
 /bin/sed -i "s|api_hostname=.*|api_hostname=${OBP_API_HOSTNAME}|g" ${PROPS_SOCIAL_FINANCE}
 /bin/sed -i "s|defaultAuthProvider=.*|defaultAuthProvider=${OBP_API_HOSTNAME}|g" ${PROPS_SOCIAL_FINANCE}
 /bin/sed -i "s|base_url=.*|base_url=${OBP_BASE_URL_SOCIAL_FINANCE}|g" ${PROPS_SOCIAL_FINANCE}
-/bin/sed -i "s|webui_api_explorer_url=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_SOCIAL_FINANCE}
+/bin/sed -i "s|webui_api_explorer_url.*=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_SOCIAL_FINANCE}
 
 # API
 echo "Replacing properties for API"
 /bin/sed -i "s|hostname=.*|hostname=${OBP_API_HOSTNAME}|g" ${PROPS_OBP_API}
-/bin/sed -i "s|webui_api_explorer_url=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_OBP_API}
+/bin/sed -i "s|webui_api_explorer_url.*=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_OBP_API}
 
 
 # Start supervisor
