@@ -7,22 +7,26 @@ RUN apt-get install --yes supervisor
 ADD supervisor/etc_default_supervisor /etc/default/supervisor
 ADD supervisor/*.conf /etc/supervisor/conf.d/
 RUN mkdir --parents /opt/OBP
-# API
+# Clone all repositories
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/OBP-API.git
+RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/Social-Finance.git
+RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.git
+# Disable rebuild before running jetty
+RUN sed -i 's/<useZincServer>true<\/useZincServer>/<useZincServer>false<\/useZincServer>/g' /opt/OBP/*/pom.xml
+RUN sed -i 's/<recompileMode>incremental<\/recompileMode>/<recompileMode>modified-only<\/recompileMode>/g' /opt/OBP/*/pom.xml
+# API
 ADD props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
-RUN cd /opt/OBP/OBP-API/ && mvn compile
+RUN cd /opt/OBP/OBP-API/ && mvn clean && mvn compile
 ADD lift_proto.db.h2.db /opt/OBP/OBP-API/
 # Social Finance
-RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/Social-Finance.git
 ADD props/Social-Finance.default.props /opt/OBP/Social-Finance/src/main/resources/props/default.props
 ADD mvn_apps.sh /opt/OBP/Social-Finance/mvn.sh
-RUN cd /opt/OBP/Social-Finance/ && mvn compile
+RUN cd /opt/OBP/Social-Finance/ && mvn clean && mvn compile
 # API Explorer
-RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.git
 ADD props/API-Explorer.default.props /opt/OBP/API-Explorer/src/main/resources/props/default.props
 ADD mvn_apps.sh /opt/OBP/API-Explorer/mvn.sh
-RUN cd /opt/OBP/API-Explorer/ && mvn compile
-# Start script and final command
+RUN cd /opt/OBP/API-Explorer/ && mvn clean && mvn compile
+# Run script
 ADD run_obp /usr/local/sbin/
 CMD /usr/local/sbin/run_obp
