@@ -14,7 +14,8 @@ ADD kafka/scripts/start-kafka.sh /usr/local/sbin/start-kafka.sh
 # Supervisor
 ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
-RUN cd /opt/OBP/OBP-API/ && git checkout kafka-connector && git pull
+# Uncomment the following line in order to checkout kafka-connector branch
+#RUN cd /opt/OBP/OBP-API/ && git fetch --all && git reset --hard origin/master && git checkout kafka-connector && git pull
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
 # Disable rebuild before running jetty
