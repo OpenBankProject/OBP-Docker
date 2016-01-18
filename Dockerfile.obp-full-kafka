@@ -14,10 +14,11 @@ ADD kafka/scripts/start-kafka.sh /usr/local/sbin/start-kafka.sh
 # Supervisor
 ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
-# Uncomment the following line in order to checkout kafka-connector branch
-#RUN cd /opt/OBP/OBP-API/ && git fetch --all && git reset --hard origin/master && git checkout kafka-connector && git pull
+# Temp fix until base image is rebuilt and pushed to docker repo: Remove old and clone fresh source.
+RUN rm -rf /opt/OBP/OBP-API && cd /opt/OBP/ && git clone https://github.com/OpenBankProject/OBP-API.git
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
+ADD lift_proto.db.h2.db /opt/OBP/OBP-API/
 # Disable rebuild before running jetty
 RUN sed -i 's/<useZincServer>true<\/useZincServer>/<useZincServer>false<\/useZincServer>/g' /opt/OBP/*/pom.xml
 RUN sed -i 's/<recompileMode>incremental<\/recompileMode>/<recompileMode>modified-only<\/recompileMode>/g' /opt/OBP/*/pom.xml
