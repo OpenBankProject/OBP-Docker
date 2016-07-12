@@ -38,6 +38,12 @@ fi
 # Configure Kafka to atomatically create topics
 #echo "auto.create.topics.enable=true" >> $KAFKA_HOME/config/server.properties
 
+# Run Zookeeper 
+$KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties &
+
+# Wait for Zookeeper to start completely 
+while netstat -lnt | awk '$4 ~ /:2181$/ {exit 1}'; do sleep 1; done
+
 # Run Kafka
 $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties &
 KAFKA_SERVER_PID=$!

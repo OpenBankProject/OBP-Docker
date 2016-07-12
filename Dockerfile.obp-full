@@ -7,13 +7,18 @@ RUN apt-get install --yes supervisor
 ADD supervisor/etc_default_supervisor /etc/default/supervisor
 ADD supervisor/*.conf /etc/supervisor/conf.d/
 RUN mkdir --parents /opt/OBP
+#ElasticSearch
+ENV ES_PKG_NAME elasticsearch-2.3.3
+RUN \
+  cd / && \
+  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
+  tar xvzf $ES_PKG_NAME.tar.gz && \
+  rm -f $ES_PKG_NAME.tar.gz && \
+  mv /$ES_PKG_NAME /opt/OBP/elasticsearch
 # Clone all repositories
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/OBP-API.git
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/Social-Finance.git
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.git
-# Disable rebuild before running jetty
-RUN sed -i 's/<useZincServer>true<\/useZincServer>/<useZincServer>false<\/useZincServer>/g' /opt/OBP/*/pom.xml
-RUN sed -i 's/<recompileMode>incremental<\/recompileMode>/<recompileMode>modified-only<\/recompileMode>/g' /opt/OBP/*/pom.xml
 # API
 ADD props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 ADD mvn_api.sh /opt/OBP/OBP-API/mvn.sh
