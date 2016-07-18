@@ -1,12 +1,12 @@
 FROM maven:3.3-jdk-8
 MAINTAINER OpenBankProject <contact@openbankproject.com>
-ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8 TERM=linux
 RUN wget http://dl.bintray.com/sbt/debian/sbt-0.13.9.deb && \
     dpkg -i sbt-0.13.9.deb && \
     rm sbt-0.13.9.deb
 RUN \
  apt-get update &&\
  apt-get upgrade --yes &&\
- apt-get install --yes bash curl git vim htop &&\
+ apt-get install --yes bash curl git vim htop telnet &&\
  apt-get clean
 

@@ -1,7 +1,7 @@
 FROM openbankproject/obp-full
 MAINTAINER OpenBankProject <contact@openbankproject.com>
 EXPOSE 8080 8081 8082 2181 9092
-ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8 TERM=linux
 # Zookeeper and Kafka
 ENV SCALA_VERSION 2.11
 ENV KAFKA_VERSION 0.10.0.0
@@ -16,4 +16,4 @@ ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 # Clean, build and cache dependencies
-RUN cd /opt/OBP/OBP-API/ && mvn clean && mvn compile
+RUN cd /opt/OBP/OBP-API/ && sbt reload && sbt compile
