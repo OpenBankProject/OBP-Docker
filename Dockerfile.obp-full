@@ -1,34 +1,22 @@
 FROM openbankproject/obp-base
 MAINTAINER OpenBankProject <contact@openbankproject.com>
 EXPOSE 8080 8081 8082
-ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8 TERM=linux
 # Supervisor
-RUN apt-get install --yes supervisor
-ADD supervisor/etc_default_supervisor /etc/default/supervisor
-ADD supervisor/*.conf /etc/supervisor/conf.d/
-RUN mkdir --parents /opt/OBP
-#ElasticSearch
-ENV ES_PKG_NAME elasticsearch-2.3.3
-RUN \
-  cd / && \
-  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
-  tar xvzf $ES_PKG_NAME.tar.gz && \
-  rm -f $ES_PKG_NAME.tar.gz && \
-  mv /$ES_PKG_NAME /opt/OBP/elasticsearch
+ADD full/supervisor/*.conf /etc/supervisor/conf.d/
 # Clone all repositories
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/OBP-API.git
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/Social-Finance.git
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.git
 # API
-ADD props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
-ADD lift_proto.db.h2.db /opt/OBP/OBP-API/
+ADD full/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
+ADD full/lift_proto.db.h2.db /opt/OBP/OBP-API/
 RUN cd /opt/OBP/OBP-API/ && sbt reload && sbt compile
 # Social Finance
-ADD props/Social-Finance.default.props /opt/OBP/Social-Finance/src/main/resources/props/default.props
+ADD full/props/Social-Finance.default.props /opt/OBP/Social-Finance/src/main/resources/props/default.props
 RUN cd /opt/OBP/Social-Finance/ && sbt reload && sbt compile
 # API Explorer
-ADD props/API-Explorer.default.props /opt/OBP/API-Explorer/src/main/resources/props/default.props
+ADD full/props/API-Explorer.default.props /opt/OBP/API-Explorer/src/main/resources/props/default.props
 RUN cd /opt/OBP/API-Explorer/ && sbt reload && sbt compile
 # Run script
-ADD run_obp /usr/local/sbin/
+ADD full/run_obp /usr/local/sbin/
 CMD /usr/local/sbin/run_obp

@@ -1,12 +1,26 @@
 FROM maven:3.3-jdk-8
 MAINTAINER OpenBankProject <contact@openbankproject.com>
 ENV LANG=C.UTF-8 LANGUAGE=C LC_ALL=C.UTF-8 TERM=linux
-RUN wget http://dl.bintray.com/sbt/debian/sbt-0.13.9.deb && \
-    dpkg -i sbt-0.13.9.deb && \
-    rm sbt-0.13.9.deb
+# Base directory
+RUN mkdir --parents /opt/OBP
+# Supervisor and debug/monitoring utils
 RUN \
  apt-get update &&\
  apt-get upgrade --yes &&\
- apt-get install --yes bash curl git vim htop telnet &&\
+ apt-get install --yes supervisor bash curl git vim htop telnet net-tools && \
  apt-get clean
-
+# Supervisor
+ADD base/supervisor/etc_default_supervisor /etc/default/supervisor
+# SBT
+ENV SBT_PKG_NAME sbt-0.13.9
+RUN wget http://dl.bintray.com/sbt/debian/$SBT_PKG_NAME.deb && \
+    dpkg -i $SBT_PKG_NAME.deb && \
+    rm $SBT_PKG_NAME.deb
+# ElasticSearch
+ENV ES_PKG_NAME elasticsearch-2.3.3
+RUN \
+  cd / && \
+  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
+  tar xvzf $ES_PKG_NAME.tar.gz && \
+  rm -f $ES_PKG_NAME.tar.gz && \
+  mv /$ES_PKG_NAME /opt/OBP/elasticsearch

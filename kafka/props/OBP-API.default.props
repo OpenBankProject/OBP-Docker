@@ -44,7 +44,7 @@ es.metrics.port.http=9200
 #you can use a no config needed h2 database by setting db.driver=org.h2.Driver and not including db.url
 #db.driver=org.postgresql.Driver
 db.driver=org.h2.Driver
-db.url=jdbc:h2:./lift_proto.db
+db.url=jdbc:h2:./lift_proto.db;MV_STORE=FALSE
 #be sure to create your database and update the line below!
 #db.url=jdbc:postgresql://localhost:5432/dbname?user=dbusername&password=thepassword
 
