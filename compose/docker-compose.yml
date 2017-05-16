@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    build: db/.
+    image: obppostgres
+    restart: always
+    volumes:
+       - db_data:/var/lib/postgresql
+
+  obp:
+    depends_on:
+     - db
+    build: api/.
+    image: openbankproject/obp-api
+    ports:
+     - "8080:8080"
+    restart: always
+    environment:
+      OBP_API_HOSTNAME: http://obp:8080
+      OBP_WEBUI_API_EXPLORER_URL: http://apiexplorer:8082
+      OBP_WEBUI_SOFI: http://sofi:8081
+
+  apiexplorer:
+    build: apiexplorer/.
+    image: openbankproject/obp-apiexplorer
+    ports:
+     - "8082:8082"
+    restart: always
+    environment: 
+      OBP_API_HOSTNAME: http://obp:8080
+      OBP_BASE_URL_API_EXPLORER: http://apiexplorer:8082
+      OBP_WEBUI_API_EXPLORER_URL: http://apiexplorer:8082
+
+  sofi:
+    build: sofi/.
+    image: openbankproject/obp-sofi
+    ports:
+     - "8081:8081"
+    restart: always
+    environment:
+      OBP_API_HOSTNAME: http://obp:8080
+      OBP_WEBUI_API_EXPLORER_URL: http://apiexplorer:8082
+      OBP_BASE_URL_SOCIAL_FINANCE: http://sofi:8081
+volumes:
+  db_data: 
