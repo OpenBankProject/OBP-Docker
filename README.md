@@ -61,3 +61,12 @@ https://hub.docker.com/r/openbankproject/
     -e "OBP_BASE_URL_SOCIAL_FINANCE=http://localhost:8081"           \
     -e "OBP_WEBUI_API_EXPLORER_URL=http://localhost:8082"            \
     openbankproject/obp-full-kafka
+
+# Docker Compose
+
+Docker compose is used to orchestrate the services. The docker images for api, apiexplorer, sofi and postgres are built separately. Using docker compose the services can be run together.
+
+To run the services using docker compose, run the following commands.
+
+    $ cd compose
+    $ docker-compose up
