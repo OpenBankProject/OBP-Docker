@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Uses the following variables from the environment:
+# OBP_API_HOSTNAME
+# OBP_BASE_URL_API_EXPLORER
+# OBP_BASE_URL_SOCIAL_FINANCE
+# OBP_WEBUI_API_EXPLORER_URL
+
+PROPS_SOCIAL_FINANCE="/opt/OBP/Social-Finance/src/main/resources/props/default.props"
+
+
+# check environment
+if [ -z ${OBP_API_HOSTNAME} ]; then
+	echo "ERROR: OBP_API_HOSTNAME not set!"
+	exit 1;
+fi
+if [ -z ${OBP_BASE_URL_SOCIAL_FINANCE} ]; then
+	echo "ERROR: OBP_BASE_URL_SOCIAL_FINANCE not set!"
+	exit 2;
+fi
+if [ -z ${OBP_WEBUI_API_EXPLORER_URL} ]; then
+	echo "ERROR: OBP_WEBUI_API_EXPLORER_URL not set!"
+	exit 3;
+fi
+
+# SoFi
+echo "Replacing properties for Social Finance"
+/bin/sed -i "s|api_hostname=.*|api_hostname=${OBP_API_HOSTNAME}|g" ${PROPS_SOCIAL_FINANCE}
+/bin/sed -i "s|defaultAuthProvider=.*|defaultAuthProvider=${OBP_API_HOSTNAME}|g" ${PROPS_SOCIAL_FINANCE}
+/bin/sed -i "s|base_url=.*|base_url=${OBP_BASE_URL_SOCIAL_FINANCE}|g" ${PROPS_SOCIAL_FINANCE}
+/bin/sed -i "s|webui_api_explorer_url.*=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_SOCIAL_FINANCE}
+
+
+# Start supervisor
+exec /etc/init.d/supervisor start

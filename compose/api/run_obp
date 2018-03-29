@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Uses the following variables from the environment:
+# OBP_API_HOSTNAME
+# OBP_WEBUI_SOFI
+# OBP_WEBUI_API_EXPLORER_URL
+
+PROPS_OBP_API="/opt/OBP/OBP-API/src/main/resources/props/default.props"
+
+
+# check environment
+if [ -z ${OBP_API_HOSTNAME} ]; then
+	echo "ERROR: OBP_API_HOSTNAME not set!"
+	exit 1;
+fi
+if [ -z ${OBP_WEBUI_SOFI} ]; then
+	echo "ERROR: OBP_WEBUI_SOFI not set!"
+	exit 2;
+fi
+if [ -z ${OBP_WEBUI_API_EXPLORER_URL} ]; then
+	echo "ERROR: OBP_WEBUI_API_EXPLORER_URL not set!"
+	exit 3;
+fi
+
+# API
+echo "Replacing properties for API"
+/bin/sed -i "s|hostname=.*|hostname=${OBP_API_HOSTNAME}|g" ${PROPS_OBP_API}
+/bin/sed -i "s|webui_api_explorer_url.*=.*|webui_api_explorer_url=${OBP_WEBUI_API_EXPLORER_URL}|g" ${PROPS_OBP_API}
+/bin/sed -i "s|webui_sofi_url=.*|webui_sofi_url=${OBP_WEBUI_SOFI}|g" ${PROPS_OBP_API}
+
+# Start supervisor
+exec /etc/init.d/supervisor start
