@@ -9,7 +9,7 @@ RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/Social-Finance.
 RUN cd /opt/OBP/ && git clone https://github.com/OpenBankProject/API-Explorer.git
 # API
 ADD full/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
-ADD full/lift_proto.db.h2.db /opt/OBP/OBP-API/
+ADD full/lift_proto.db.mv.db /opt/OBP/OBP-API/
 RUN cd /opt/OBP/OBP-API/ && mvn package -DskipTests
 # Social Finance
 ADD full/props/Social-Finance.default.props /opt/OBP/Social-Finance/src/main/resources/props/default.props
