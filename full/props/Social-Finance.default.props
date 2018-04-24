@@ -5,8 +5,11 @@
 api_hostname=http://127.0.0.1:8080
 
 #these are the oauth keys obtained from the api (at /consumer-registration)
-obp_consumer_key=ghg2w5y2zegdwuz4n4v5por4zwyy35tudv3whffn
-obp_secret_key=pqbq2xtrlg5skxauhnvl0g5mecb5dapeq4kh4tlp
+#obp_consumer_key=ghg2w5y2zegdwuz4n4v5por4zwyy35tudv3whffn
+#obp_secret_key=pqbq2xtrlg5skxauhnvl0g5mecb5dapeq4kh4tlp
+
+obp_consumer_key=cs1aumktp2zrv4rkq10mphsepj44moftgscrlp4m
+obp_secret_key=n4d2c2ccniwpvro15ow2esheqcubl2cpeciq3ap1
 
 #the base url of this application (e.g. http://localhost:8080) which is used for the oauth callback url.
 #note: if you are running a local api instance and a local sofi instance, you will want to access one via

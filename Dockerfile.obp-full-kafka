@@ -15,4 +15,4 @@ ADD kafka/supervisor/*.conf /etc/supervisor/conf.d/
 # API
 ADD kafka/props/OBP-API.default.props /opt/OBP/OBP-API/src/main/resources/props/default.props
 # Clean, build and cache dependencies
-RUN cd /opt/OBP/OBP-API/ && sbt reload && sbt compile
+RUN cd /opt/OBP/OBP-API/ && mvn package -DskipTests
