@@ -71,13 +71,13 @@ To run the services using docker compose, run the following commands.
     $ cd compose
     $ docker-compose up
 
-# Viewing Errors & Logging
+# Errors Logging & Debugging
 
 To view the logs of the running OBP API instance:
 
 1. Exec into the running container: `docker exec -it <container-id> /bin/bash`
    this will drop you to a root shell.
-2. Tail the jetty log: `tail -f  OBP-API-stdout.log`
+2. Tail the jetty log: `tail -f  `/var/log/supervisor/OBP-API-stdout.log`
 3. There are additional logs in `/var/log/supervisor`
 
 To find out your container id run `sudo docker ps`
