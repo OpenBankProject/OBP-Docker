@@ -1,0 +1,719 @@
+#this is a sample props file you should edit and rename
+#see https://www.assembla.com/wiki/show/liftweb/Properties for all the naming options, or just use "default.props" in this same folder
+
+### OBP-API configuration
+
+
+### Base configuration
+
+## Which data connector to use, if config `star` as connector, please also check `starConnector_supported_types` 
+connector=mapped
+#connector=mongodb
+#connector=kafka
+#conenctor=kafka_vMar2017
+#connector=akka_vDec2018
+#connector=rest_vMar2019
+#connector=obpjvm
+#connector=star
+#connector=...
+
+## if connector = star, then need to set which connectors will be used. For now, obp support rest, akka, kafka. If you set kafka, then you need to start the kafka server.
+#starConnector_supported_types=rest,akka,kafka 
+
+## whether export LocalMappedConnector methods as endpoints, it is just for develop, default is false
+#connector.export.LocalMappedConnector=false
+
+## Connector cache time-to-live in seconds, caching defaults to 10 seconds
+#connector.cache.ttl.seconds=3
+#connector.cache.ttl.seconds.getBank=10
+#connector.cache.ttl.seconds.getBanks=10
+#connector.cache.ttl.seconds.getAccount=10
+#connector.cache.ttl.seconds.getAccounts=10
+#connector.cache.ttl.seconds.getTransaction=10
+#connector.cache.ttl.seconds.getTransactions=10
+#connector.cache.ttl.seconds.getCounterpartyFromTransaction=10
+#connector.cache.ttl.seconds.getCounterpartiesFromTransaction=10
+#connector.cache.ttl.seconds.APIMethods121.getTransactions=10
+
+## MethodRouting cache time-to-live in seconds
+#methodRouting.cache.ttl.seconds=30
+
+## webui props cache time-to-live in seconds
+#webui.props.cache.ttl.seconds=20
+
+## DynamicEntity cache time-to-live in seconds
+#dynamicEntity.cache.ttl.seconds=20
+
+## swagger file should not generated for every request, this is a time-to-live in seconds for the generated swagger of OBP api,
+## this value also represent how many seconds before the new endpoints will be shown after upload a new DynamicEntity.
+## So if you want the new endpoints shown timely, set this value to a small number.
+resourceDocsObp.cache.ttl.seconds=3600
+
+## enable logging all the database queries in log file
+#logging.database.queries.enable=true
+
+##Added Props property_name_prefix, default is OBP_. This adds the prefix only for the system environment property name, eg: db.driver --> OBP_db.driver
+#system_environment_property_name_prefix=OBP_
+
+## OBP-JVM transport type. currently supported: kafka, mock
+#obpjvm.transport=kafka
+
+## Transaction status scheduler delay in seconds.
+## Retrieves transactionRequest status from south-side connector.
+## Scheduler will be disabled if delay is not set.
+#transaction_status_scheduler_delay=300
+
+## If using kafka, set the brokers
+#kafka.bootstrap_hosts=localhost:9092
+# WARNING: if this number does not match the partitions in Kafka config, you will SUFFER !
+#kafka.partitions=3
+#kafka.client.id=obp.api.1
+
+## Enable user authentication via kafka
+#kafka.user.authentication=true
+
+## Enable user authentication via obpjvm
+#obpjvm.user.authentication=true
+
+## Enable SSL for JWT, if set to true must set paths for the keystore locations
+jwt.use.ssl=false
+
+## Enable SSL for kafka, if set to true must set paths for the keystore locations
+#kafka.use.ssl=true
+
+# Paths to the SSL keystore files - has to be jks    
+#keystore.path=/path/to/api.keystore.jks
+#keystore.password = redf1234
+#keystore.passphrase = redf1234
+#keystore.alias = localhost
+#truststore.path=/path/to/api.truststore.jks
+
+
+## Enable writing API metrics (which APIs are called) to RDBMS
+write_metrics=true
+## Enable writing connector metrics (which methods are called)to RDBMS 
+write_connector_metrics=true
+
+## ElasticSearch
+#allow_elasticsearch=true
+#allow_elasticsearch_warehouse=true
+#allow_elasticsearch_metrics=true
+#es.cluster.name=elasticsearch
+
+
+## ElasticSearch warehouse
+#es.warehouse.index=warehouse
+#es.warehouse.host=localhost
+#es.warehouse.port.tcp=9300
+#es.warehouse.port.http=9200
+
+#es.warehouse.allowed.indices = index1,index2 (or = ALL for all).
+#es.warehouse.allowed.maximum.pagesize = 10000
+
+
+
+## ElasticSearch metrics
+#es.metrics.index=metrics
+#es.metrics.host=localhost
+#es.metrics.port.tcp=9300
+#es.metrics.port.http=9200
+
+
+## You can use a no config needed h2 database by setting db.driver=org.h2.Driver and not including db.url
+db.driver=org.h2.Driver
+db.url=jdbc:h2:./lift_proto.db;DB_CLOSE_ON_EXIT=FALSE
+
+
+#If you want to use the postgres , be sure to create your database and update the line below!
+#db.driver=org.postgresql.Driver
+#db.url=jdbc:postgresql://localhost:5432/dbname?user=dbusername&password=thepassword
+
+# If you want to use MySQL
+#db.url=jdbc:mysql://localhost:3306/OBP_DB1?user=obp_user_001&password=your-password-here&verifyServerCertificate=false&useSSL=true&serverTimezone=UTC&nullNamePatternMatchesAll=true
+
+
+## Enable remote Akka actor for data split
+## If set to true, must set hostname and port
+## of remote machine
+#remotedata.loglevel=INFO
+#remotedata.timeout=2
+#remotedata.enable=true
+#remotedata.hostname=127.0.0.1
+#remotedata.port=2662
+## Arbitrary value used in order to assure us that
+## remote and local sides are paired well
+## Only needed when remotedata.enable=true
+#remotedata.secret=CHANGE_ME
+
+## Set separate database for data split
+## If remotedata is disabled, bd has to be accessible from local machine
+## If remotedata is enabled, db has to be accessible from remote machine
+#remotedata.db.driver=org.h2.Driver
+#remotedata.db.url=jdbc:h2:./lift_proto.db.remotedata;DB_CLOSE_ON_EXIT=FALSE
+#remotedata.db.username=user
+#remotedata.db.password=secret
+
+
+## Our own remotely accessible URL
+## This is needed for oauth to work. it's important to access the api over this url, e.g.
+## If this is 127.0.0.1 do NOT use localhost to access it.
+## (this needs to be a URL)
+hostname=http://127.0.0.1:8080
+
+## This is only useful for running the api locally via RunWebApp
+## If you use it, make sure this matches your hostname port!
+## If you want to change the port when running via the command line, use "mvn -Djetty.port=8080 jetty:run" instead
+dev.port=8080
+
+
+#The start of the api path (before the version)
+#It is *strongly* recommended not to change this - since Apps will be expecting the api at /obp/+version
+#Including it here so we have a canonical source of the value
+#This was introduced March 2016, some code might use hardcoded value instead.
+#Default value is obp (very highly recomended)
+apiPathZero=obp
+
+## Sending mail out
+## Not need in dev mode, but important for production
+mail.api.consumer.registered.sender.address=no-reply@example.com
+mail.api.consumer.registered.notification.addresses=you@example.com
+# This property allows sending API registration data to developer's email.
+#mail.api.consumer.registered.notification.send=false
+We only send consumer keys and secret if this is true
+#mail.api.consumer.registered.notification.send.sensistive=false
+mail.smtp.host=127.0.0.1
+mail.smtp.port=25
+
+## Oauth token timeout
+token_expiration_weeks=4
+
+
+
+### Sandbox
+
+## Set this to true if you want to allow users to create sandbox test accounts with a starting balance
+allow_sandbox_account_creation=true
+
+## Set this to true if you want to allow the "data import" api call
+allow_sandbox_data_import=true
+
+# Secret key that allows access to the "data import" api. You should change this to your own secret key
+sandbox_data_import_secret=change_me
+
+
+
+### API features
+
+## Secret key that allows access to the "add cash transactions" api. You should change this to your own secret key
+cashApplicationKey=change_me
+
+## Set this to false if you don't want the api payments call to work (starting with v1.2.1)
+payments_enabled=true
+
+## Transaction requests are replacing simple payments starting from 1.4.0
+transactionRequests_enabled=true
+transactionRequests_connector=mapped
+
+## Transaction Request Types that are supported on this server. Possible values might include SANDBOX_TAN, COUNTERPARTY, SEPA, FREE_FORM
+transactionRequests_supported_types=SANDBOX_TAN,COUNTERPARTY,SEPA,ACCOUNT_OTP,ACCOUNT
+
+## Transaction request challenge threshold. Level at which challenge is created and needs to be answered.
+## The Currency is EUR unless set with transactionRequests_challenge_currency.
+## The values specified here are converted to the transaction currency.
+## Connector implementation may well provide dynamic response
+## These settings are of the form transactionRequests_challenge_threshold_UPPERCASETYPE=INTEGER
+transactionRequests_challenge_threshold_SANDBOX_TAN=1000
+transactionRequests_challenge_threshold_SEPA=1000
+
+# To set a currency for the above value:
+#transactionRequests_challenge_currency=KRW
+
+
+## For video conference meetings (createMeeting)
+meeting.tokbox_enabled=false
+meeting.tokbox_api_key=changeme
+meeting.tokbox_api_secret=changeme
+
+
+
+### Management modules
+
+## RabbitMQ settings (used to communicate with HBCI project)
+connection.host=localhost
+connection.user=theusername
+connection.password=thepassword
+
+## Secret key that allows access to the "add transactions" api. You should change this to your own secret key
+importer_secret=change_me
+
+## Set this to true if you want to have the api send a message to the hbci project to refresh transactions for an account
+messageQueue.updateBankAccountsTransaction=false
+
+## The minimum time between updates in hours
+messageQueue.updateTransactionsInterval=1
+
+## Set this to true if you want to have the api listen for "create account" messages from the hbci project
+messageQueue.createBankAccounts=true
+
+## Set this to true if you want to allow users to delete accounts (local ones like HBCI connected)
+allow_account_deletion=true
+
+## Secret key that allows access to api calls to get info about oauth tokens. You should change this
+## to your own secret key
+BankMockKey=change_me
+
+
+#####################################################################################
+## Web interface configuration
+
+## IMPLEMENTING BANK SPECIFIC BRANDING ON ONE OBP INSTANCE ########################
+# Note, you can specify bank specific branding by appending _FOR_BRAND_<BANK_ID> to the standard props names
+# e.g.
+#webui_header_logo_left_url_FOR_BRAND_banku = https://static.openbankproject.com/images/sandbox/bank_u.png
+#webui_header_logo_left_url_FOR_BRAND_banky = https://static.openbankproject.com/images/sandbox/bank_y.png
+# And invoke by calling index etc with ?brand=<BANK_ID>
+# e.g. http://127.0.0.1:8080/?brand=x
+# For any properties that don't have a bank specific flavour, the standard props name will be used.
+#
+#
+#
+## IMPLEMENTING REAL TIME CHANGES TO webui_ PROPERTIES ########################
+# Properties begining with "webui_" may also be stored in the database via OBP API calls
+# Modifications will cause realtime content changes in the HTML (subject to webui.props.cache.ttl.seconds) once the page is reloaded.
+# See the following APIs in API Explorer:
+# Add WebUiProps
+# Delete WebUiProps
+# Get WebUiProps
+####################################################################################
+
+
+
+webui_header_logo_left_url = /media/images/logo.png
+webui_header_logo_right_url =
+webui_index_page_about_section_background_image_url = /media/images/about-background.jpg
+webui_index_page_about_section_text = <p class="about-text"> \
+                                        Welcome to the API Sandbox powered by the Open Bank Project! <br/> \
+                                      </p>
+
+# Top text appears on default.html For branding next to logo(s)
+webui_top_text=
+
+
+
+# Bottom Footer logo
+#webui_footer2_logo_left_url=
+# Bottom Footer middle text
+#webui_footer2_middle_text=
+
+
+# API Explorer URL, change to your instance
+webui_api_explorer_url = https://apiexplorer.openbankproject.com
+
+# Sofi URL (aka Social Finance), change to your instance
+webui_sofi_url = https://sofi.openbankproject.com
+
+# API Manager URL, change to your instance
+webui_api_manager_url = https://apimanager.openbankproject.com
+
+# Open Bank Project CLI URL, change to your instance
+webui_obp_cli_url = https://github.com/OpenBankProject/OBP-CLI
+
+# API Tester URL, change to your instance
+webui_api_tester_url = https://apitester.openbankproject.com
+
+
+
+
+# To display a custom message above the username / password box
+# We currently use this to display example customer login in sandbox etc.
+webui_login_page_special_instructions=
+
+
+##################################################################################
+# The following two Props values are related.
+# Defines the the contents of the /introduction page and also the contents of the Glossary Item `Sandbox Introduction`
+#
+# Please NOTE: It is difficult to put markdown in this file because you have to escape characters.
+# HOWEVER, you can easily use the *API Manager / Configure / Web UI Props * to write the value over the API because API Manager takes care of the markdown escaping.
+# Note if webui_api_documentation_url is set, then the User won't be directed to the /introduction page but to the webui_api_documentation_url
+webui_sandbox_introduction=
+# To set an External page for documentation e.g. a wiki page.
+# Change this if you have a specific landing page.
+# NOTE: if this is *not set*, the Introduction Button on /index will link the user to /introduction
+# If this is set, the Introduction Button will link the user to the URL defined above. (but the page /introduction will still exist so you might want to populate webui_sandbox_introduction anyway.)
+webui_api_documentation_url = https://github.com/OpenBankProject/OBP-API/wiki
+###################################################################################
+
+# Link for SDKs
+webui_sdks_url = https://github.com/OpenBankProject/OBP-API/wiki/OAuth-Client-SDKS
+
+
+# Text about data in FAQ
+webui_faq_data_text = We use real data and customer profiles which have been anonymized.
+
+# Link to FAQ
+webui_faq_url = https://openbankproject.com/faq/
+
+# Email address in FAQ for further inquiries
+webui_faq_email = contact@openbankproject.com
+
+# Link to support platform
+webui_support_platform_url = https://slack.openbankproject.com/
+
+# Link to Direct Login glossary on api explorer
+webui_direct_login_documentation_url =
+
+# Link to OAuth 1.0a glossary on api explorer
+webui_oauth_1_documentation_url =
+
+# Link to OAuth 2.0 glossary on api explorer
+webui_oauth_2_documentation_url =
+
+# URL of OAuth2.0 server
+oauth2_server_url =
+
+# Link to Privacy Policy on signup page
+webui_agree_privacy_policy_url = https://openbankproject.com/privacy-policy
+webui_agree_privacy_policy_html_text =<div id="signup-agree-privacy-policy"><label>By submitting this information you consent to processing your data by TESOBE GmbH according to our <a href="$url" title="Privacy Policy">Privacy Policy</a>. TESOBE shall use this information to send you emails and provide customer support.</label></div>
+
+## For partner logos and links
+webui_main_partners=[\
+{"logoUrl":"http://www.example.com/images/logo.png", "homePageUrl":"http://www.example.com", "altText":"Example 1"},\
+{"logoUrl":"http://www.example.com/images/logo.png", "homePageUrl":"http://www.example.com", "altText":"Example 2"}]
+
+# Prefix for all page titles (note the trailing space!)
+webui_page_title_prefix = Open Bank Project: 
+
+# Main style sheet. Add your own if need be.
+webui_main_style_sheet = /media/css/website.css
+
+# Override certain elements (with important styles)
+webui_override_style_sheet =
+
+## Link to agree to Terms & Conditions, shown on signup page
+webui_agree_terms_url =
+
+# URL to load (additional) vendor support content
+#webui_vendor_support_content_url = http://127.0.0.1:8080/plain.html
+
+# URL to load (additional) about vendor content
+#webui_about_vendor_content_url = http://127.0.0.1:8080/plain.html
+
+# URL to load (alternative) get started content (this replaces the normal content in index.html
+#webui_get_started_content_url = http://127.0.0.1:8080/plain.html
+
+
+
+# If we want to gather more information about an Application / Startup fill this url and text
+# Will be displayed on the post Consumer Registration page.
+#webui_post_consumer_registration_more_info_url =
+#webui_post_consumer_registration_more_info_text = Please tell us more your Application and / or Startup using this link.
+
+
+## Display For Banks section
+webui_display_for_banks_section = true
+
+webui_get_started_text = Get started building your application using this sandbox now
+
+
+webui_dummy_user_logins = Customer Logins\
+                              \
+                              TODO we should be able to put markdown here and have it rendered as such in the glossary
+                              Developers can use the following logins to get access to dummy customer accounts and transactions.\
+                              \
+                              \
+                                  {\
+                                    "user_name":"john",\
+                                    "password":"ford",\
+                                    "email":"john.ford@example.com"\
+                                  },\
+                                  {\
+                                    "user_name":"jane",\
+                                    "password":"burrel",\
+                                    "email":"jane.burrel@example.com"\
+                                  },\
+                              \
+                              \
+                              Please ask a member of the Open Bank Project team for more logins if you require. You can use this [application](https://sofit.openbankproject.com) which also uses OAuth to browse your transaction data (use the above username/password).\
+
+# when this value is set to true and webui_dummy_user_logins value not empty, the register consumer key success page will show dummy customers Direct Login tokens.
+webui_show_dummy_user_tokens=false
+
+# when developer register the consumer successfully, it will show this message to developer on the webpage or email. 
+webui_register_consumer_success_message_webpage = Thanks for registering your consumer with the Open Bank Project API! Here is your developer information. Please save it in a secure location.
+webui_register_consumer_success_message_email = Thank you for registering to use the Open Bank Project API.
+
+## End of webui_ section ########
+
+
+## API Options
+apiOptions.getBranchesIsPublic = true
+apiOptions.getAtmsIsPublic = true
+apiOptions.getProductsIsPublic = true
+apiOptions.getTransactionTypesIsPublic = true
+apiOptions.getCurrentFxRateIsPublic = true
+
+## Default Bank. Incase the server wants to support a default bank so developers don't have to specify BANK_ID
+## e.g. developers could use /my/accounts as well as /my/banks/BANK_ID/accounts
+defaultBank.bank_id=THE_DEFAULT_BANK_ID
+
+
+## Super Admin Users (not database so we don't have to edit database)
+super_admin_user_ids=USER_ID1,USER_ID2,
+
+
+
+######## Enable / Disable Versions and individual endpoints. ########
+# In OBP, endpoints are defined in various files but made available under a *version*
+# e.g. in v3_0_0 (aka v3.0.0) we have endpoints from various versions.
+# Thus when we enable/disable a version we enable/disable a group of endpoints which are defined in several files.
+#
+#
+# For a VERSION to be allowed it must be:
+
+# 1) Absent from here:
+#api_disabled_versions=[v3_0_0]
+
+# 2) Present here OR this entry must be empty.
+#api_enabled_versions=[v2_2_0,v3_0_0]
+
+# Note we use "v" and "_" in the name to match the ApiVersions enumeration in ApiUtil.scala
+
+# For an ENDPOINT to be allowed it must be:
+
+# 1) Absent from here:
+#api_disabled_endpoints=[createAccount]
+
+# 2) Present here OR this list must be empty
+#api_enabled_endpoints=[createAccount,accountById]
+
+# Note that "root" cannot be disabled
+#
+#
+##########################
+
+
+## OpenId Connect can be used to retrieve User information from an
+## external OpenID Connect server.
+## To use an external OpenID Connect server,
+## you will need to change these values.
+## The following values provided for a temp test account.
+## CallbackURL 127.0.0.1:8080 should work in most cases.
+## Note: The email address used for login must match one
+## registered on OBP localy.
+#allow_openidconnect=true
+#openidconnect.clientSecret=CEX3Oud7N8p69qCnNTWvnic3-1ortVlGnD1GXgzxpDW-GjD5_3xG1-G5Kln3K9FA
+#openidconnect.clientId=yzKGC1ZKYqwYRpvbDaTq2r8mEQLY31D4
+#openidconnect.domain=justatest.eu.auth0.com
+#openidconnect.callbackURL=http://127.0.0.1:8080/my/logins/openidconnect
+#openidconnect.url.login=https://cdn.auth0.com/js/lock/10.2/lock.min.js
+#openidconnect.url.userinfo=https://justatest.eu.auth0.com/userinfo
+#openidconnect.url.token=https://justatest.eu.auth0.com/oauth/token
+#openidconnect.url.buttonImage=http://wiki.openid.net/f/openid-logo-wordmark.png
+
+# When new consumers inserted they should use this setting.
+consumers_enabled_by_default=true
+
+# Autocomplete for login form has to be explicitly set
+autocomplete_at_login_form_enabled=false
+
+# Skip Auth User Email validation (defaults to true)
+#authUser.skipEmailValidation=true
+
+# If using Kafka but want to get counterparties from OBP, set this to true
+#get_counterparties_from_OBP_DB=true
+
+# control the create and access to public views.
+# allow_public_views=false
+
+# control access to firehose views.
+# allow_firehose_views=false
+
+# -- Gateway login --------------------------------------
+# Enable/Disable Gateway communication at all
+# In case isn't defined default value is false
+# allow_gateway_login=false
+# Define comma separated list of allowed IP addresses
+# gateway.host=127.0.0.1
+# Define secret used to validate JWT token
+# gateway.token_secret=secret
+# -------------------------------------- Gateway login --
+
+
+# Disable akka (Remote storage not possible)
+use_akka=false
+
+
+# -- Display internal errors --------------------------------------
+# Enable/Disable showing of nested/chained error messages to an end user
+# When is disabled we show only last message which should be a user friendly one. For instance:
+# {
+#   "error": "OBP-30001: Bank not found. Please specify a valid value for BANK_ID."
+# }
+# When is disabled we also do filtering. Every message which does not contain "OBP-" is considered as internal and as that is not shown.
+# In case the filtering implies an empty response we provide a generic one:
+# {
+#   "error": "OBP-50005: An unspecified or internal error occurred."
+# }
+# When is enabled we show all messages in a chain. For instance:
+# {
+#   "error": "OBP-30001: Bank not found. Please specify a valid value for BANK_ID. <- Full(Kafka_TimeoutExceptionjava.util.concurrent.TimeoutException: The stream has not been completed in 1550 milliseconds.)"
+# }
+display_internal_errors=false
+# -------------------------------------- Display internal errors --
+
+
+# -- OAuth 2 ---------------------------------------------------------------------------------
+# Enable/Disable OAuth 2 workflow at a server instance
+# In case isn't defined default value is false
+# allow_oauth2_login=false
+# URL of Public server JWK set used for validating bearer JWT access tokens
+# It can contain more than one URL i.e. list of uris. Values are comma separated.
+# If MITREId URL is present it must be at 1st place in the list
+# because MITREId URL can be an appropirate value and we cannot rely on it.
+# oauth2.jwk_set.url=http://localhost:8080/jwk.json,https://www.googleapis.com/oauth2/v3/certs
+# ------------------------------------------------------------------------------ OAuth 2 ------
+
+## This property is used for documenting at Resource Doc. It may include the port also (but not /obp)
+## (this needs to be a URL)
+documented_server_url=https://apisandbox.openbankproject.com
+organisation_website = https://www.tesobe.com
+
+## This property is a comma separated list of APIs that should be "featured" i.e. highlighted, or listed prominently in the API Explorer etc.
+featured_apis=elasticSearchWarehouseV300
+
+## Note: To add special instructions for an endpoint, just add a folder called  of named special_instructions_for_resources
+## to your src main resources folder and create markdown files there for each partial function that needs special instructions
+## and they will be displayed in the API Explorer (and in Resource Docs endpoint).
+## e.g. OBP-API/src/main/resources/special_instructions_for_resources/dataWarehouseSearch.md
+## Note: You do NOT need to include anything here for this to work.
+
+# -- ScalaGuava cache -------------------------------------
+# Define which cache provider to use: "in-memory", "redis".
+# In case isn't defined default value is "in-memory"
+# guava.cache=redis
+# guava.redis.url=127.0.0.1
+# guava.redis.port=6379
+# ---------------------------------------------------------
+
+# -- New Style Endpoints -----------------------
+# Filter or not Resource Doc by New Style
+# true implies we only have new style endpoints
+# new_style_only=false
+# ----------------------------------------------
+
+# -- Calls Limit --------------------------------------
+# Define how many calls per hour a consumer can make
+# In case isn't defined default value is "false"
+# use_consumer_limits=false
+# In case isn't defined default value is "false"
+# use_consumer_limits_in_memory_mode=false
+# In case isn't defined default value is 60
+# user_consumer_limit_anonymous_access=100
+# redis_address=127.0.0.1
+# redis_port=6379
+# In case isn't defined default value is root
+# rate_limiting.exclude_endpoints=root
+# -----------------------------------------------------
+
+# -- Migration Scripts ----------------------------
+# Enable/Disable execution of migration scripts.
+# In case isn't defined default value is "false"
+# migration_scripts.execute=false
+# Define list of migration scripts to execute.
+# List is not ordered.
+# list_of_migration_scripts_to_execute=dummyScript
+# Bypass the list and execute all available scripts
+# migration_scripts.execute_all=false
+# -------------------------------------------------
+
+# -- Mapper rules -------------------------------
+# Define mapper rules
+# In case isn't defined default value is "false"
+# mapper_rules.create_foreign_keys=false
+# -----------------------------------------------
+
+# -- Akka connector --------------------------------------------
+# Define mapper rules
+# In case isn't defined default value is "127.0.0.1"
+# akka_connector.hostname=127.0.0.1
+# In case isn't defined default value is "2662"
+# akka_connector.port=2662
+# In case isn't defined default value is "INFO"
+# akka_connector.loglevel=INFO/DEBUG etc.
+# In case isn't defined default value is "akka-connector-actor"
+# akka_connector.name_of_actor=SOME_ACTOR_NAME
+# --------------------------------------------------------------
+
+
+# -- Rest connector --------------------------------------------
+# If Rest Connector do not get the response in the following seconds, it will throw the error message back.
+# This props can be omitted, the default value is 59. It should be less than Nginx timeout.
+# rest2019_connector_timeout = 59 
+
+
+ 
+# -- Scopes -----------------------------------------------------
+# Scopes are a way to limit the APIs a Consumer can call.
+# In case isn't defined default value is "false"
+# require_scopes_for_all_roles=false
+# require_scopes_for_listed_roles=CanCreateUserAuthContext,CanGetCustomer
+# ---------------------------------------------------------------
+
+# -- Database scheduler -----------------------------
+# Database scheduler interval in seconds.
+# Scheduler would not be started if delay is not set.
+database_messages_scheduler_interval=3600
+# ---------------------------------------------------
+
+# -- Consents -----------------------------------
+# In case isn't defined default value is "false"
+# consents.allowed=true
+# -----------------------------------------------
+
+# -- SCA (Strong Customer Authentication) -------
+# For now, OBP-API use `nexmo` server as the SMS provider. Please check `nexmo` website, and get the api key and value there.
+# sca_phone_api_key = oXAjqAJ6rvCunpzN
+# sca_phone_api_secret =oXAjqAJ6rvCunpzN123sdf
+# 
+
+# -- PSD2 Certificates --------------------------
+# In case isn't defined default value is "false"
+# requirePsd2Certificates=false
+# -----------------------------------------------
+
+# -- OBP-API mode -------------------------------
+# In case isn't defined default value is "apis,portal"
+# Possible cases: portal, api
+# server_mode=apis,portal
+# If the server_mode set to `portal`, so we need to set its portal hostname. If omit this props, then it will use `hostname` value instead.
+# portal_hostname=http://127.0.0.1:8080
+# -----------------------------------------------
+
+# -- SCA (Strong Customer Authentication) method for OTP challenge-------
+# ACCOUNT_OTP_INSTRUCTION_TRANSPORT=dummy
+# SEPA_OTP_INSTRUCTION_TRANSPORT=dummy
+# FREE_FORM_OTP_INSTRUCTION_TRANSPORT=dummy
+# COUNTERPARTY_OTP_INSTRUCTION_TRANSPORT=dummy
+# Possible values: dummy,email,sms
+# -----------------------------------------------------------------------
+
+# convert Bank_Plan_Text_Reference to OBP-UUID switch. Note: this is in process only for RestConnector now.
+#implicitly_convert_ids = false
+
+# Enable /Disable Create password reset url endpoint
+#ResetPasswordUrlEnabled=false
+
+# Get API Info (root)
+#hosted_at.organisation=
+#hosted_at.organisation_website=
+#energy_source.organisation=
+#energy_source.organisation_website=
+
+# GRPC 
+# the default GRPC is disabled
+# grpc.server.enabled = false
+# If do not set this props, the grpc port will be set randomly when OBP starts. 
+# And you can call `Get API Configuration` endpoint to see the `grpc_port` there. 
+# When you set this props, need to make sure this port is available.  
+# grpc.server.port = 50051
