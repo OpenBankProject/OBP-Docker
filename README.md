@@ -7,7 +7,7 @@ https://hub.docker.com/r/openbankproject/
 
 ### Build
 
-    $ docker build --no-cache -f api/Dockerfile -t openbankproject/obp-base api
+    $ docker build --no-cache -f Dockerfile.obp-base -t openbankproject/obp-base .
 
 
 
@@ -17,7 +17,16 @@ https://hub.docker.com/r/openbankproject/
     $ docker run -d -p 8080:8080                         \
     -e "OBP_API_HOSTNAME=http://127.0.0.1:8080"          \
     openbankproject/obp-api
+    
+    
+### Overwriting configuration parameters by environment variables
 
+Any configuration in api/default.props can also be overwritten at container creation by
+passing an environment variable. 
+
+Use the configured prefix (default: OBP_), capitalize all letters and convert all '.' to '_'
+.
+E.g.:  'db.url' -> 'OBP_DB_URL'
 
 # Errors Logging & Debugging
 
