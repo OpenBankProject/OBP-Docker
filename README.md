@@ -7,7 +7,7 @@ https://hub.docker.com/r/openbankproject/
 
 ### Build
 
-    $ docker build --no-cache -f api/Dockerfile -t openbankproject/obp-base .
+    $ docker build --no-cache -f Dockerfile.obp-base -t openbankproject/obp-base .
 
 
 
