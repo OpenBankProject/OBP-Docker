@@ -16,7 +16,7 @@ https://hub.docker.com/r/openbankproject/
 
     $ docker run -d -p 8080:8080                         \
     -e "OBP_API_HOSTNAME=http://127.0.0.1:8080"          \
-    openbankproject/obp-api
+    openbankproject/obp-base
     
     
 ### Overwriting configuration parameters by environment variables
