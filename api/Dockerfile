@@ -12,7 +12,7 @@ FROM maven:3-jdk-8 as maven
 COPY --from=repo /OBP-API /usr/src
 RUN cp /usr/src/OBP-API/obp-api/pom.xml /tmp/pom.xml # For Packaging a local repository within the image
 WORKDIR /usr/src/OBP-API
-ADD ./default.props obp-api/src/main/resources/props/default.props
+ADD ./api/default.props obp-api/src/main/resources/props/default.props
 RUN cp obp-api/src/main/resources/props/test.default.props.template obp-api/src/main/resources/props/test.default.props
 RUN mvn install -pl .,obp-commons
 RUN mvn install -DskipTests -pl obp-api
