@@ -7,8 +7,8 @@ FROM openjdk:8-jre-alpine
 RUN adduser -D obp
 
 # Download jetty
-RUN wget https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.15.v20190215/jetty-distribution-9.4.15.v20190215.tar.gz
-RUN tar xvf jetty-distribution-9.4.15.v20190215.tar.gz
+RUN wget -O - https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.15.v20190215/jetty-distribution-9.4.15.v20190215.tar.gz | tar zx
+RUN mv jetty-distribution-* jetty
 
 
 # Copy build artifact (.war file) into jetty from local directory.
