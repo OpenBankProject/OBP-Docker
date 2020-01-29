@@ -11,9 +11,8 @@ FROM maven:3-jdk-8 as maven
 # Build the source using maven, source is copied from the 'repo' build.
 COPY --from=repo /OBP-API-Explorer /usr/src
 ADD api-explorer/API-Explorer.default.props /usr/src/API-Explorer/src/main/resources/props/default.props
-
-RUN cp /usr/src/pom.xml /tmp/pom.xml # For Packaging a local repository within the image
-WORKDIR /usr/src/OBP-API-Explorer
+RUN cp /usr/src/API-Explorer/pom.xml /tmp/pom.xml # For Packaging a local repository within the image
+WORKDIR /usr/src/API-Explorer
 RUN mvn package -DskipTests
 #RUN mvn install -pl .,obp-commons
 #RUN mvn install -DskipTests -pl obp-api
@@ -29,7 +28,7 @@ RUN mv jetty-distribution-* jetty
 
 # Copy API Explorer source code
 # Copy build artifact (.war file) into jetty from 'maven' stage.
-COPY --from=maven /usr/src/OBP-API-Explorer/obp-api/target/*.war jetty/webapps/ROOT.war
+COPY --from=maven /usr/src/API-Explorer/target/API_Explorer-1.0.war jetty/webapps/ROOT.war
 
 WORKDIR jetty
 RUN chown -R  obp /jetty
