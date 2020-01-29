@@ -12,7 +12,7 @@ FROM maven:3-jdk-8 as maven
 COPY --from=repo /OBP-API-Explorer /usr/src
 ADD api-explorer/API-Explorer.default.props /usr/src/API-Explorer/src/main/resources/props/default.props
 
-RUN cp /usr/src/OBP-API-Explorer/obp-api/pom.xml /tmp/pom.xml # For Packaging a local repository within the image
+RUN cp /usr/src/pom.xml /tmp/pom.xml # For Packaging a local repository within the image
 WORKDIR /usr/src/OBP-API-Explorer
 RUN mvn package -DskipTests
 #RUN mvn install -pl .,obp-commons
@@ -27,7 +27,7 @@ RUN adduser -D obp
 RUN wget -O - https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.15.v20190215/jetty-distribution-9.4.15.v20190215.tar.gz | tar zx
 RUN mv jetty-distribution-* jetty
 
-# Copy OBP source code
+# Copy API Explorer source code
 # Copy build artifact (.war file) into jetty from 'maven' stage.
 COPY --from=maven /usr/src/OBP-API-Explorer/obp-api/target/*.war jetty/webapps/ROOT.war
 
