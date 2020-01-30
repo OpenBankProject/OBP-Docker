@@ -18,5 +18,4 @@ COPY /api-manager/local_settings.py API-Manager/apimanager/apimanager/local_sett
 RUN API-Manager/apimanager/manage.py check
 RUN API-Manager/apimanager/manage.py makemigrations
 RUN API-Manager/apimanager/manage.py migrate
-CMD ["API-Manager/apimanager/manage.py", "runserver"]
-
+CMD ["API-Manager/apimanager/manage.py", "runserver", "0.0.0.0:8000"]
