@@ -36,5 +36,7 @@ RUN chown -R  obp /jetty
 # Switch to the obp user (non root)
 USER obp
 
+ENV JETTY_MEM=1024m
+
 # Starts jetty
-ENTRYPOINT ["java", "-jar", "start.jar"]
+CMD java -jar -Xmx${JETTY_MEM} start.jar
