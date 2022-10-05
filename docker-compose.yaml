@@ -1,0 +1,32 @@
+version: "3.3"
+services:
+  api-explorer-scalejs-reach:
+    build:
+      context: .
+      dockerfile: Dockerfile.api-explorer
+    networks:
+      - app
+    ports:
+      - 8082:8082
+  api-manager-python:
+    build:
+      context: .
+      dockerfile: Dockerfile.api-manager
+    networks:
+      - app
+    volumes:
+      - "../API-Manager:/code"
+    ports:
+      - 8000:8000
+    environment:
+      OBP_MANAGER_API_HOST: http://localhost:8080
+  # api-core-scala:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.obp-base
+  #   networks:
+  #     - app
+  #   ports:
+  #     - 8080:8080
+networks:
+  app:
